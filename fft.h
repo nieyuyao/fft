@@ -12,7 +12,7 @@ typedef struct complex
     float Im;
 } complex;
 
-typedef unsigned long int uint32_t;
+typedef unsigned int uint32_t;
 
 
 int fft(complex *src, uint32_t n, complex *dest);
