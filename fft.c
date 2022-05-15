@@ -66,7 +66,6 @@ int fft(complex *src, complex *dest, uint32_t n)
     return 0;
 }
 
-
 int ifft(complex *src, complex *dest, uint32_t n)
 {
     int log2n = log2(n);

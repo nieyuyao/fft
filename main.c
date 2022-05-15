@@ -1,24 +1,16 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "fft.h"
 #include "complex.h"
-
-#define N 4
+#include "fft.h"
 
 int main()
 {
-    complex *src_vector = (complex *)(malloc(sizeof(complex) * N));
-    complex *dest_vector = (complex *)(malloc(sizeof(complex) * N));
-    for (unsigned int i = 0; i < N; i++)
+
+    complex input[8] = {{0., 0.}, {1., 0.}, {2., 0.}, {3., 0.}, {4., 0.}, {5., 0.}, {6., 0.}, {7., 0}};
+    complex output[8];
+    fft(input, output, 8);
+    for (int i = 0; i < 8; i++)
     {
-        complex src_p, dest_p;
-        src_p.Im = i + 1;
-        src_p.Re = 0;
-        memcpy(&dest_p, &src_p, sizeof(complex));
-        src_vector[i] = src_p;
-        dest_vector[i] = dest_p; 
+        printf("%f %f j \n", output[i].Re, output[i].Im);
     }
-    fft(src_vector, N, dest_vector);
     return 0;
 }
