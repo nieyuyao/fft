@@ -1,6 +1,6 @@
 GCCFALGS=-Wall -Werror
 
-main: main.c
-	gcc $(GCCFALGS) -o ./fft ./main.c
+main: main.c fft.c
+	gcc $(GCCFALGS) -o main ./main.c ./fft.c
 clean:
 	rm ./fft ./main

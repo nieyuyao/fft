@@ -22,31 +22,30 @@ void adjust_src_array(complex *src, complex *dest, uint32_t n)
         x = bit_reverse(i, log2n);
         dest[i] = src[x];
     }
-    return dest;
 }
 
 void perform(complex *src, complex *dest, uint32_t n, int inverse)
 {
     adjust_src_array(src, dest, n);
     float pi = inverse ? -1 * PI : PI;
-    for (int group_step = n; group_step > 1; group_step <<= 2)
+    for (int jump = n; jump > 1; jump >>= 2)
     {
         // group * step = n
-        int group = n / group_step;
-        float p = 2 * pi / group_step;
-        for (int step = 0; step < group_step; step++)
+        int group = n / jump;
+        float p = 2 * pi / jump;
+        for (int step = 0; step < jump; step++)
         {
-            p = step * 2 * PI / group_step;
+            p = step * 2 * PI / jump;
             for (int pair = 0; pair < group; pair += 2)
             {
 
-                int l1 = pair * group_step + step;
-                int l2 = (pair + 1) * group_step + step;
+                int l1 = pair * jump + step;
+                int l2 = l1 + jump;
                 float re = cos(p);
                 float im = sin(p);
                 float new_re = re * dest[l2].Re - im * dest[l2].Im;
                 float new_im = re * dest[l2].Im + im * dest[l2].Re;
-                dest[l1].Re += new_re + new_re;
+                dest[l1].Re += new_re;
                 dest[l1].Im += new_im;
                 dest[l2].Re -= new_re;
                 dest[l2].Im -= new_im;
