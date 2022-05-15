@@ -32,23 +32,22 @@ void perform(complex *src, complex *dest, uint32_t n, int inverse)
     {
         // group * step = n
         int group = n / jump;
-        float p = 2 * pi / jump;
+        float delta = 2 * pi / jump;
         for (int step = 0; step < jump; step++)
         {
-            p = step * 2 * PI / jump;
+            delta = step * 2 * PI / jump;
             for (int pair = 0; pair < group; pair += 2)
             {
-
-                int l1 = pair * jump + step;
-                int l2 = l1 + jump;
-                float re = cos(p);
-                float im = sin(p);
-                float new_re = re * dest[l2].Re - im * dest[l2].Im;
-                float new_im = re * dest[l2].Im + im * dest[l2].Re;
-                dest[l1].Re += new_re;
-                dest[l1].Im += new_im;
-                dest[l2].Re -= new_re;
-                dest[l2].Im -= new_im;
+                int k = pair * jump + step;
+                int m = k + jump;
+                float cos_v = cos(delta);
+                float sin_v = sin(delta);
+                float re = cos_v * dest[m].Re - sin_v * dest[m].Im;
+                float im = cos_v * dest[m].Im + sin_v * dest[m].Re;
+                dest[k].Re += re;
+                dest[k].Im += im;
+                dest[m].Re -= re;
+                dest[m].Im -= im;
             }
         }
     }
